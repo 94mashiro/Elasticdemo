@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import index from '@/components/index'
-import search from '@/components/search'
+import index from '@/pages/index'
+import search from '@/pages/search'
 
 Vue.use(Router)
 
