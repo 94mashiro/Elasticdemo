@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>{{this.$route.params.query}}</h1>
     <result-list :results="results"></result-list>
     <br>
     <search-bar></search-bar>

@@ -2,7 +2,8 @@
   <div>
     <el-form class="demo-form-inline">
       <el-form-item>
-        <el-input v-model="query" placeholder="搜索一下" @submit.prevent="onSubmit"></el-input>
+        <!--<el-input v-model="query" placeholder="搜索一下" ></el-input>-->
+        <el-autocomplete v-model="query" :fetch-suggestions="querySearchAsync" placeholder="请输入内容" size="large" @select="handleSelect"></el-autocomplete>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -23,9 +24,30 @@
     },
     methods: {
       onSubmit() {
-        this.$router.push({name:'search',params:{query:this.query}})
+        this.$router.push({
+          name: 'search',
+          params: {
+            query: this.query
+          }
+        })
+      },
+      querySearchAsync(queryString, cb) {
+        api.getSuggest(queryString, function(results){
+          cb(results)
+        })
+      },
+      handleSelect(item) {
+        console.log(item);
       }
     }
   }
 
 </script>
+
+
+<style scope>
+  .el-autocomplete {
+    width: 100%;
+  }
+
+</style>
