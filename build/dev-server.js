@@ -41,6 +41,11 @@ compiler.plugin('compilation', function (compilation) {
   })
 })
 
+app.use('/wikipedia/*', proxyMiddleware({
+  target: 'http://127.0.0.1:9200',
+  changeOrigin: true
+}))
+
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {
   var options = proxyTable[context]
@@ -62,10 +67,7 @@ app.use(devMiddleware)
 // compilation error display
 app.use(hotMiddleware)
 
-app.use('/wikipedia', proxyMiddleware({
-  target: 'http://127.0.0.1:9200',
-  changeOrigin: true
-}))
+
 
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
