@@ -1,0 +1,1 @@
+export const GET_SEARCH_DETAILS = 'GET_SEARCH_DETAILS'
