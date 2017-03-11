@@ -6,6 +6,12 @@
         <el-autocomplete v-model="query" :fetch-suggestions="querySearchAsync" placeholder="请输入内容" size="large" @select="handleSelect"></el-autocomplete>
       </el-form-item>
       <el-form-item>
+        <el-radio-group v-model="searchModel">
+          <el-radio :label="1">标题</el-radio>
+          <el-radio :label="2">全文</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form-item>
     </el-form>
@@ -19,11 +25,13 @@
     name: 'searchBar',
     data() {
       return {
-        query: ''
+        query: '',
+        searchModel: 2
       }
     },
     methods: {
       onSubmit() {
+        this.$store.dispatch('changeSearchModel',this.searchModel===1?'title':'text')
         this.$router.push({
           name: 'search',
           params: {
@@ -32,7 +40,7 @@
         })
       },
       querySearchAsync(queryString, cb) {
-        api.getSuggest(queryString, function(results){
+        api.getSuggest(queryString, function (results) {
           cb(results)
         })
       },

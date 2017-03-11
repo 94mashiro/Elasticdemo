@@ -6,7 +6,7 @@
     <el-table-column
       :label="label">
        <template scope="scope">
-        <router-link to="/" tag="p">{{ scope.row._source.title }}</router-link>
+        <router-link tag="p" :to="{ name: 'detail', params: { id: scope.row._id }}">{{ scope.row._source.title }}</router-link>
       </template>
     </el-table-column>
   </el-table>
@@ -19,7 +19,6 @@
     props:['results'],
     computed: {
       tableData:function() {
-        console.log(this.results)
         if( this.results.length === 0 ) {
           return []
         }

@@ -1,38 +1,65 @@
 <template>
   <div>
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>搜索列表</el-breadcrumb-item>
+    </el-breadcrumb>
     <h1>{{this.$route.params.query}}</h1>
+    <!--<search-bar></search-bar>-->
     <result-list :results="results"></result-list>
     <br>
-    <search-bar></search-bar>
+    <pagination :totalNum="results.hits.total" @changeOffset="changeOffset"></pagination>
   </div>
 </template>
 
 <script>
   import resultList from '../components/resultList.vue'
   import searchBar from '../components/searchBar.vue'
+  import pagination from '../components/pagination.vue'
   export default {
     components: {
       resultList,
-      searchBar
+      searchBar,
+      pagination
     },
-    data(){
+    data() {
       return {
         results: []
+      }
+    },
+    methods: {
+      changeOffset: function (offset) {
+        var _this = this;
+        var options = {
+        title: this.$route.params.query,
+        offset: offset
+      }
+        this.$store.dispatch('searchWikiByTitle', options).then(() => {
+          _this.results = _this.$store.state.search.results
+        })
       }
     },
     watch: {
       '$route' (to, from) {
         var _this = this;
-        this.$store.dispatch('searchWikiByTitle', to.params.query).then(()=>{
+        var options = {
+        title: to.params.query,
+        offset: 0
+      }
+        this.$store.dispatch('searchWikiByTitle', options).then(() => {
           _this.results = _this.$store.state.search.results
         })
       }
     },
-    created () {
+    created() {
       var _this = this;
-      this.$store.dispatch('searchWikiByTitle', this.$route.params.query).then(()=>{
-          _this.results = _this.$store.state.search.results
-        })
+      var options = {
+        title: this.$route.params.query,
+        offset: 0
+      }
+      this.$store.dispatch('searchWikiByTitle', options).then(() => {
+        _this.results = _this.$store.state.search.results
+      })
     }
   }
 

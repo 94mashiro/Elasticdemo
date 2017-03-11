@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>elasticdemo</h1>
+    <h1>Yet Another Search Engine</h1>
     <search-bar></search-bar>
   </div>
 </template>

@@ -5,11 +5,11 @@ const esClient = new elasticsearch.Client({
 });
 
 export default {
-  searchWikiByTitle: function (title, cb) {
+  searchWikiByTitle: function (model, title, offset, cb) {
     let body = {
       query: {
         match: {
-          title: {
+          [model]: {
             query: title,
           }
         }
@@ -17,7 +17,9 @@ export default {
     };
     esClient.search({
         index: 'wikipedia',
-        body: body
+        body: body,
+        size: 15,
+        from: offset
       })
       .then(results => {
         cb(results)
@@ -54,5 +56,15 @@ export default {
         cb([]);
       })
       .catch(console.error);
+  },
+
+  getWikipediaById(id, cb) {
+    esClient.get({
+      index: 'wikipedia',
+      type: 'page',
+      id: id
+    }, function (error, response) {
+      cb(response)
+    })
   }
 }

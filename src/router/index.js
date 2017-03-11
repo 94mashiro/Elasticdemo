@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/pages/index'
 import search from '@/pages/search'
+import detail from '@/pages/detail'
 
 Vue.use(Router)
 
@@ -17,5 +18,9 @@ export default new Router({
   }, {
     path: '/search/',
     redirect: '/'
+  }, {
+    path: '/detail/:id',
+    name: 'detail',
+    component: detail
   }]
 })
